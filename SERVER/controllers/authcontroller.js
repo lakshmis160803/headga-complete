@@ -152,15 +152,15 @@ export const verifyRegisterOtp = async (
 
       .cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         maxAge: 15 * 60 * 1000,
       })
 
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         maxAge:
           7 * 24 * 60 * 60 * 1000,
       })
@@ -318,15 +318,15 @@ export const verifyOtp = async (req, res) => {
 
       .cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         maxAge: 15 * 60 * 1000,
       })
 
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         maxAge:
           7 * 24 * 60 * 60 * 1000,
       })
@@ -397,8 +397,8 @@ export const refreshAccessToken = async (
 
       .cookie("accessToken", newAccessToken, {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
         maxAge: 15 * 60 * 1000,
       })
 
@@ -483,15 +483,15 @@ export const logout = async (req, res) => {
 
       .clearCookie("accessToken", {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: "none",
+        secure: true,
         path: "/",
       })
 
       .clearCookie("refreshToken", {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: "none",
+        secure: true,
         path: "/",
       })
 
