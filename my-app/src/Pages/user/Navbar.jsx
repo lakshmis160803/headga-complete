@@ -49,12 +49,23 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-4">
-          {user.name ? (
-            <>
-              <span className="font-medium"><span className="font-bold">{user.name}</span></span>
-              <button onClick={handleLogout} className="bg-red-500 text-white px-3 py-1 rounded">Logout</button>
-            </>
-          ) : (
+         {user.name ? (
+  <>
+    <button
+      onClick={() => navigate("/profile")}
+      className="font-bold hover:text-blue-600"
+    >
+      {user.name}
+    </button>
+
+    <button
+      onClick={handleLogout}
+      className="bg-red-500 text-white px-3 py-1 rounded"
+    >
+      Logout
+    </button>
+  </>
+) : (
             <button onClick={() => navigate("/login")} className="bg-blue-600 text-white px-4 py-1 rounded">Login</button>
           )}
         </div>
