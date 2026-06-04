@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { useWishlist } from "./WishlistContext.jsx";
-import Profile from "./Profile.jsx";
+
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export default function Navbar() {
 
   return (
     <div className="sticky top-0 z-50 bg-white shadow">
-      <Profile/>
+    
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
         <h1 className="text-2xl font-bold cursor-pointer" onClick={() => navigate("/")}>

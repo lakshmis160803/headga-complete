@@ -29,13 +29,19 @@ const Profile = () => {
       const res = await axiosinstance.put("/auth/profile", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+      console.log("Response:", res.data);
 
-      setUser({
-        id: res.data.user.id,
-        name: res.data.user.name,
-        role: res.data.user.role,
-        avatar: res.data.user.avatar,
-      });
+   const updatedUser = {
+  id: res.data.user.id,
+  name: res.data.user.name,
+  role: res.data.user.role,
+  avatar: res.data.user.avatar,
+};
+
+console.log("Updated User:", updatedUser);
+
+setUser(updatedUser);
+      
       toast.success("Profile updated!");
     } catch {
       toast.error("Failed to update profile.");
