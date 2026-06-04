@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import axiosinstance from "../api/apiinstances";
+import { useAuth } from "../../context/AuthContext";
+import axiosinstance from "../../api/apiinstances";
 import toast from "react-hot-toast";
 
 const Profile = () => {
