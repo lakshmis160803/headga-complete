@@ -1,4 +1,4 @@
-import SibApiV3Sdk from "@getbrevo/brevo";
+import * as SibApiV3Sdk from "@getbrevo/brevo";
 
 export const sendOtpEmail = async (to, otp) => {
   try {
