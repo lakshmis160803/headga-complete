@@ -2,11 +2,13 @@ import * as SibApiV3Sdk from "@getbrevo/brevo";
 
 export const sendOtpEmail = async (to, otp) => {
   try {
-    const apiInstance = new SibApiV3Sdk.BrevoClient(process.env.KEY);
+    const client = new SibApiV3Sdk.BrevoClient(process.env.KEY);
+
+    console.log("BREVO CLIENT METHODS:", Object.getOwnPropertyNames(Object.getPrototypeOf(client)));
 
     console.log("SENDING EMAIL");
 
-    const info = await apiInstance.sendTransacEmail({
+    const info = await client.emailCampaigns.sendTransacEmail({
       sender: { email: "lakshmistla17@gmail.com", name: "Headga" },
       to: [{ email: to }],
       subject: "Your OTP Code",
