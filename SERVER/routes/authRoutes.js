@@ -1,7 +1,7 @@
 import express from "express";
 import passport from "../controllers/passport.js";
 
-// import { updateProfile } from "../controllers/authController.js";
+
 import { upload } from "../utils/cloudinary.js";
 import {
   preRegister,
@@ -12,6 +12,7 @@ import {
   googleCallback,
   logout,
   getMe,
+  updateProfile
   
 } from "../controllers/authcontroller.js";
 
@@ -67,6 +68,5 @@ router.get(
   getMe
 );
 
-// router.put("/profile", protect, updateProfile);
-router.put("/profile", protect, upload.single("avatar"), updateProfile);
+router.put("/profile", verifyToken, upload.single("avatar"), updateProfile);
 export default router;
