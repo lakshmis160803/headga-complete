@@ -62,7 +62,7 @@ function Login() {
   // ─────────────────────────────────────────
   const handleLoginSubmit = async () => {
     try {
-      await axios.post("http://localhost:3001/api/auth/login", {
+      await axios.post("https://headga-backend.onrender.com/api/auth/login",  {
         email: userdata.email.trim(),
         password: userdata.password,
       });
@@ -80,7 +80,7 @@ function Login() {
     if (!loginOtp) return toast.error("Please enter OTP");
     try {
       const res = await axios.post(
-        "http://localhost:3001/api/auth/verify-otp",
+  "https://headga-backend.onrender.com/api/auth/verify-otp",
         { email: userdata.email.trim(), otp: loginOtp },
         { withCredentials: true }
       );
@@ -102,7 +102,7 @@ function Login() {
       return toast.error("Passwords do not match");
     }
     try {
-      await axios.post("http://localhost:3001/api/auth/pre-register", {
+await axios.post("https://headga-backend.onrender.com/api/auth/pre-register", {
         name: userdata.name,
         email: userdata.email.trim(),
         password: userdata.password,
@@ -121,7 +121,7 @@ function Login() {
     if (!signupOtp) return toast.error("Please enter OTP");
     try {
       const res = await axios.post(
-        "http://localhost:3001/api/auth/verify-register-otp",
+  "https://headga-backend.onrender.com/api/auth/verify-register-otp",
         { email: userdata.email.trim(), otp: signupOtp },
         { withCredentials: true }
       );
@@ -142,7 +142,8 @@ function Login() {
   // GOOGLE LOGIN
   // ─────────────────────────────────────────
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:3001/api/auth/google";
+    window.location.href =
+  "https://headga-backend.onrender.com/api/auth/google";
   };
 
   // ─────────────────────────────────────────

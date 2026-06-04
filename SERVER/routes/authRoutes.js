@@ -50,9 +50,8 @@ router.get(
   "/google/callback",
 
   passport.authenticate("google", {
-    failureRedirect:
-      "http://localhost:5173/login",
-
+ failureRedirect:
+  "https://headga-complete.vercel.app/login",
     session: false,
   }),
 
