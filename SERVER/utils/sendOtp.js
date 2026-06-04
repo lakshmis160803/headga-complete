@@ -1,25 +1,32 @@
 import nodemailer from "nodemailer";
 
 export const sendOtpEmail = async (to, otp) => {
+  console.log("EMAIL_USER:", process.env.EMAIL_USER);
+  console.log(
+    "EMAIL_PASS:",
+    process.env.EMAIL_PASS ? "FOUND" : "MISSING"
+  );
+
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
+      pass: process.env.EMAIL_PASS,
+    },
   });
 
   await transporter.sendMail({
-    from: `"MyApp" <${process.env.EMAIL_USER}>`,
+    from: process.env.EMAIL_USER,
     to,
     subject: "Your OTP Code",
     html: `
-      <div style="font-family:sans-serif; padding:20px;">
+      <div style="font-family:sans-serif;padding:20px">
         <h2>Email Verification</h2>
-        <p>Your OTP code is:</p>
-        <h1 style="letter-spacing:8px; color:#4F46E5;">${otp}</h1>
-        <p>This expires in <strong>5 minutes</strong>.</p>
+        <p>Your OTP is:</p>
+        <h1>${otp}</h1>
       </div>
-    `
+    `,
   });
 };
