@@ -51,15 +51,39 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-4">
          {user.name ? (
   <>
-  <button
-  onClick={() => {
-    alert("clicked");
-    navigate("/profile");
-  }}
-  className="font-bold text-red-600"
->
-  EDIT PROFILE
-</button>
+    <div className="flex items-center gap-2">
+      
+      <button
+        onClick={() => navigate("/profile")}
+        className="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center font-bold overflow-hidden"
+      >
+        {user.avatar ? (
+          <img
+            src={user.avatar}
+            alt="profile"
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          user.name[0].toUpperCase()
+        )}
+      </button>
+
+      <button
+        onClick={() => navigate("/profile")}
+        className="font-bold hover:text-blue-600"
+      >
+        {user.name}
+      </button>
+
+      <button
+        onClick={() => navigate("/profile")}
+        className="text-lg hover:scale-110 transition"
+        title="Edit Profile"
+      >
+        ✏️
+      </button>
+
+    </div>
 
     <button
       onClick={handleLogout}
