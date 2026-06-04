@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { useWishlist } from "./Wishlistcontext.jsx";
+import { useWishlist } from "./WishlistContext.jsx";
 
 export default function Navbar() {
   const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import { useWishlist } from "./Wishlistcontext";
+import { useWishlist } from "./WishlistContext";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import Navbar from "./Navbar";
