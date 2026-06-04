@@ -28,6 +28,7 @@ export const getOrdersadmin = async (req, res) => {
 
  
       orders = await Order.find()
+       .populate("user", "name email")
         .populate("items.product", "title image");
    
 

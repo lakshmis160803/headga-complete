@@ -17,7 +17,7 @@ router.post(
   upload.single("image"),
   addProduct
 );
-router.get("/",verifyToken,getProducts);
+router.get("/",getProducts);
 
 router.patch("/:id", verifyToken, updateProduct);
 router.delete("/:id", verifyToken, deleteProduct);

@@ -3,10 +3,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useWishlist } from "./Wishlistcontext";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 function Login() {
   const [login, setLogin] = useState(true);
-  const { setUserId } = useWishlist();
+  const { setUser } = useAuth();
+  // const { setUserId } = useWishlist();
   const navigate = useNavigate();
 
   const [userdata, setUserdata] = useState({
@@ -82,7 +84,7 @@ function Login() {
         { email: userdata.email.trim(), otp: loginOtp },
         { withCredentials: true }
       );
-      setUserId(res.data.user.id.toString());
+   setUser({ id: res.data.user.id, name: res.data.user.name, role: res.data.user.role });
       toast.success("Login successful");
       res.data.user.role === "admin" ? navigate("/admin") : navigate("/");
     } catch (err) {
@@ -123,7 +125,7 @@ function Login() {
         { email: userdata.email.trim(), otp: signupOtp },
         { withCredentials: true }
       );
-      setUserId(res.data.user.id.toString());
+     setUser({ id: res.data.user.id, name: res.data.user.name, role: res.data.user.role });
       toast.success("Account created! Welcome!");
       navigate("/");
     } catch (err) {

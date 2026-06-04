@@ -1,5 +1,3 @@
-// src/api/axiosInstance.js
-
 import axios from "axios";
 
 const api = axios.create({
@@ -8,23 +6,18 @@ const api = axios.create({
 });
 
 let isRefreshing = false;
-
 let failedQueue = [];
 
 const processQueue = (error) => {
-
   failedQueue.forEach((promise) => {
-
     if (error) {
       promise.reject(error);
     } else {
       promise.resolve();
     }
   });
-
   failedQueue = [];
 };
-
 
 api.interceptors.response.use(
 
@@ -34,53 +27,38 @@ api.interceptors.response.use(
 
     const originalRequest = error.config;
 
-    // access token expired
+    const isAuthEndpoint =
+      originalRequest.url?.includes("/auth/me") ||
+      originalRequest.url?.includes("/auth/refresh");
+
     if (
       error.response?.status === 401 &&
-      !originalRequest._retry
+      !originalRequest._retry &&
+      !isAuthEndpoint
     ) {
 
-      // already refreshing
       if (isRefreshing) {
-
         return new Promise((resolve, reject) => {
-
-          failedQueue.push({
-            resolve,
-            reject,
-          });
-
+          failedQueue.push({ resolve, reject });
         }).then(() => {
           return api(originalRequest);
         });
       }
 
       originalRequest._retry = true;
-
       isRefreshing = true;
 
       try {
-
-        // refresh access token
         await api.post("/auth/refresh");
-
         processQueue(null);
-
-        // retry failed request
         return api(originalRequest);
-
       } catch (refreshError) {
-
         processQueue(refreshError);
-
         if (window.location.pathname !== "/login") {
-  window.location.href = "/login";
-}
-
+          window.location.href = "/login";
+        }
         return Promise.reject(refreshError);
-
       } finally {
-
         isRefreshing = false;
       }
     }

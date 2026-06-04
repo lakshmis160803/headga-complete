@@ -5,6 +5,7 @@ import { Plus, Edit2, Trash2, Package, X, Image as ImageIcon, Search } from "luc
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
   const [editing, setEditing] = useState(null);
+  const [editImage, setEditImage] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
   const [newProduct, setNewProduct] = useState({
     title: "", price: "", stock: "", description: "", category: "", image: null
@@ -27,13 +28,24 @@ export default function AdminProducts() {
     } catch (err) { console.error(err); }
   };
 
-  const saveProduct = async () => {
-    try {
-      await axiosinstance.patch(`/products/${editing._id}`, editing);
-      setEditing(null);
-      fetchProducts();
-    } catch (err) { console.error(err); }
-  };
+ const saveProduct = async () => {
+  try {
+    const formData = new FormData();
+    formData.append("title", editing.title);
+    formData.append("price", editing.price);
+    formData.append("stock", editing.stock);
+    formData.append("category", editing.category);
+    formData.append("description", editing.description);
+    if (editImage) formData.append("image", editImage);
+
+    await axiosinstance.patch(`/products/${editing._id}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    setEditing(null);
+    setEditImage(null);
+    fetchProducts();
+  } catch (err) { console.error(err); }
+};
 
   const addProduct = async () => {
     try {
@@ -153,7 +165,7 @@ export default function AdminProducts() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button onClick={() => setEditing(p)} className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                       <button onClick={() => { setEditing(p); setEditImage(null); }} className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
                           <Edit2 size={18} />
                         </button>
                         <button onClick={() => deleteProduct(p._id)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all">
@@ -170,37 +182,64 @@ export default function AdminProducts() {
       </div>
 
       {editing && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white w-full max-w-lg p-8 rounded-3xl shadow-2xl animate-in zoom-in-95 duration-200">
-            <h2 className="text-2xl font-bold mb-6 text-slate-900">Edit Product</h2>
-            <div className="space-y-4">
-              <FormInput label="Title" value={editing.title} onChange={(val) => setEditing({ ...editing, title: val })} />
-              <div className="grid grid-cols-2 gap-4">
-                <FormInput label="Price" type="number" value={editing.price} onChange={(val) => setEditing({ ...editing, price: +val })} />
-                <FormInput label="Stock" type="number" value={editing.stock} onChange={(val) => setEditing({ ...editing, stock: +val })} />
-              </div>
-              <FormInput label="Category" value={editing.category} onChange={(val) => setEditing({ ...editing, category: val })} />
-              <div>
-                <label className="text-sm font-semibold text-slate-700 mb-1 block">Description</label>
-                <textarea
-                  rows={3}
-                  value={editing.description}
-                  onChange={(e) => setEditing({ ...editing, description: e.target.value })}
-                  className="w-full border border-slate-200 rounded-xl p-3 outline-none focus:ring-4 focus:ring-blue-100 transition-all"
-                />
-              </div>
-            </div>
-            <div className="flex gap-3 mt-8">
-              <button onClick={() => setEditing(null)} className="flex-1 px-5 py-3 border border-slate-200 rounded-xl font-bold hover:bg-slate-50 transition-all">
-                Cancel
-              </button>
-              <button onClick={saveProduct} className="flex-1 px-5 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-100">
-                Save Changes
-              </button>
-            </div>
-          </div>
+  <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="bg-white w-full max-w-lg p-8 rounded-3xl shadow-2xl overflow-y-auto max-h-[90vh]">
+      <h2 className="text-2xl font-bold mb-6 text-slate-900">Edit Product</h2>
+      <div className="space-y-4">
+        <FormInput label="Title" value={editing.title} onChange={(val) => setEditing({ ...editing, title: val })} />
+        <div className="grid grid-cols-2 gap-4">
+          <FormInput label="Price" type="number" value={editing.price} onChange={(val) => setEditing({ ...editing, price: +val })} />
+          <FormInput label="Stock" type="number" value={editing.stock} onChange={(val) => setEditing({ ...editing, stock: +val })} />
         </div>
-      )}
+        <FormInput label="Category" value={editing.category} onChange={(val) => setEditing({ ...editing, category: val })} />
+        <div>
+          <label className="text-sm font-semibold text-slate-700 mb-1 block">Description</label>
+          <textarea
+            rows={3}
+            value={editing.description}
+            onChange={(e) => setEditing({ ...editing, description: e.target.value })}
+            className="w-full border border-slate-200 rounded-xl p-3 outline-none focus:ring-4 focus:ring-blue-100 transition-all"
+          />
+        </div>
+
+        {/* IMAGE */}
+        <div>
+          <label className="text-sm font-semibold text-slate-700 mb-1 block">Product Image</label>
+          <div className="relative border-2 border-dashed border-slate-200 rounded-xl hover:border-blue-400 transition-colors h-40 flex items-center justify-center bg-slate-50 overflow-hidden">
+            <img
+              src={editImage ? URL.createObjectURL(editImage) : editing.image}
+              alt="preview"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+              <span className="text-white text-sm font-medium flex items-center gap-2">
+                <ImageIcon size={16} /> Change Image
+              </span>
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setEditImage(e.target.files[0])}
+              className="absolute inset-0 opacity-0 cursor-pointer"
+            />
+          </div>
+          {editImage && (
+            <p className="text-xs text-blue-600 mt-1">New image: {editImage.name}</p>
+          )}
+        </div>
+      </div>
+
+      <div className="flex gap-3 mt-8">
+        <button onClick={() => { setEditing(null); setEditImage(null); }} className="flex-1 px-5 py-3 border border-slate-200 rounded-xl font-bold hover:bg-slate-50 transition-all">
+          Cancel
+        </button>
+        <button onClick={saveProduct} className="flex-1 px-5 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all">
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }

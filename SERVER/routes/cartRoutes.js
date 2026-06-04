@@ -8,7 +8,7 @@ import {
 } from "../controllers/cartController.js";
 import { verifyToken } from "../middlewares/authMiddleware.js";
 const router = express.Router();
-router.get("/",verifyToken, getCart);
+router.get("/", verifyToken,getCart);
 router.post("/",verifyToken, addToCart);
 router.patch("/clear",verifyToken, clearCart);
 router.patch("/update",verifyToken, updateQuantity);

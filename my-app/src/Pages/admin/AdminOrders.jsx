@@ -246,8 +246,8 @@ export default function AdminOrders() {
                       <p className="text-sm font-semibold text-slate-700">
 
                         {typeof order.user === "object"
-                          ? order.user?.name || order.user?.email
-                          : order.user || "Guest"}
+  ? order.user?.name || order.user?.email || "Google-User"
+  : "Deleted User"}
 
                       </p>
 

@@ -8,7 +8,7 @@ import { verifyToken } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", verifyToken, getWishlist);
+router.get("/",verifyToken, getWishlist);
 router.post("/", verifyToken, addToWishlist);
 router.delete("/:id", verifyToken, removeFromWishlist);
 
