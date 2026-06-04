@@ -453,17 +453,17 @@ export const googleCallback = async (
 
       .redirect(
         req.user.role === "admin"
-          ? "http://localhost:5173/admin"
-          : "http://localhost:5173/"
+          ?"https://headga-complete.vercel.app/admin"
+          : "https://headga-complete.vercel.app/"
       );
 
   } catch (err) {
 
     console.error(err);
 
-    res.redirect(
-      "http://localhost:5173/login"
-    );
+   
+      res.redirect("https://headga-complete.vercel.app/login");
+    
   }
 };
 
