@@ -435,22 +435,19 @@ export const googleCallback = async (
     await req.user.save();
 
     res
+.cookie("accessToken", accessToken, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  maxAge: 15 * 60 * 1000,
+})
 
-      .cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "lax",
-        maxAge: 15 * 60 * 1000,
-      })
-
-      .cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "lax",
-        maxAge:
-          7 * 24 * 60 * 60 * 1000,
-      })
-
+.cookie("refreshToken", refreshToken, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+})
       .redirect(
         req.user.role === "admin"
           ?"https://headga-complete.vercel.app/admin"
