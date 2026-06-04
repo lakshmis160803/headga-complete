@@ -8,7 +8,10 @@ export const sendOtpEmail = async (to, otp) => {
   );
 
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    family: 4, // force IPv4
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
@@ -16,6 +19,7 @@ export const sendOtpEmail = async (to, otp) => {
   });
 
   try {
+    console.log("TRYING SMTP CONNECTION...");
     await transporter.verify();
     console.log("SMTP VERIFIED");
   } catch (err) {
