@@ -1,13 +1,13 @@
-import * as Brevo from "@getbrevo/brevo";
+import SibApiV3Sdk from "@getbrevo/brevo";
 
 export const sendOtpEmail = async (to, otp) => {
   try {
     console.log("SETTING UP BREVO API");
 
-    const client = Brevo.ApiClient.instance;
+    const client = SibApiV3Sdk.ApiClient.instance;
     client.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
 
-    const emailApi = new Brevo.TransactionalEmailsApi();
+    const emailApi = new SibApiV3Sdk.TransactionalEmailsApi();
 
     console.log("SENDING EMAIL");
 
