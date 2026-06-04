@@ -1,39 +1,27 @@
-import nodemailer from "nodemailer";
+import * as Brevo from "@getbrevo/brevo";
 
 export const sendOtpEmail = async (to, otp) => {
   try {
-    console.log("CREATING TRANSPORT");
+    console.log("SETTING UP BREVO API");
 
-    const transporter = nodemailer.createTransport({
-      host: "smtp-relay.brevo.com",
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.BREVO_USER,
-        pass: process.env.BREVO_PASS,
-      },
-    });
+    const client = Brevo.ApiClient.instance;
+    client.authentications["api-key"].apiKey = process.env.BREVO_API_KEY;
 
-    console.log("VERIFYING SMTP");
-
-    await transporter.verify();
-
-    console.log("SMTP VERIFIED");
+    const emailApi = new Brevo.TransactionalEmailsApi();
 
     console.log("SENDING EMAIL");
 
-    const info = await transporter.sendMail({
-      from: '"Headga" <lakshmistla17@gmail.com>',
-      to,
+    const info = await emailApi.sendTransacEmail({
+      sender: { email: "lakshmistla17@gmail.com", name: "Headga" },
+      to: [{ email: to }],
       subject: "Your OTP Code",
-      html: `
+      htmlContent: `
         <h2>Email Verification</h2>
         <h1>${otp}</h1>
       `,
     });
 
-    console.log("EMAIL SENT");
-    console.log(info);
+    console.log("EMAIL SENT", info);
   } catch (err) {
     console.error("BREVO ERROR:", err);
     throw err;
