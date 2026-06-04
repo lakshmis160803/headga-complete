@@ -11,18 +11,15 @@ export const sendOtpEmail = async (to, otp) => {
     },
   });
 
-  await transporter.sendMail({
-    from: process.env.BREVO_USER,
+  const info = await transporter.sendMail({
+    from: '"Headga" <lakshmistla17@gmail.com>',
     to,
     subject: "Your OTP Code",
     html: `
-      <div style="font-family:sans-serif;padding:20px">
-        <h2>Email Verification</h2>
-        <p>Your OTP is:</p>
-        <h1>${otp}</h1>
-      </div>
+      <h2>Email Verification</h2>
+      <h1>${otp}</h1>
     `,
   });
 
-  console.log("EMAIL SENT");
+  console.log(info.messageId);
 };
