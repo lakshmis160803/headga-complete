@@ -65,7 +65,11 @@ function Login() {
       await axios.post("https://headga-backend.onrender.com/api/auth/login",  {
         email: userdata.email.trim(),
         password: userdata.password,
-      });
+      },
+  {
+    withCredentials: true,
+  }
+);
       toast.success("OTP sent to your email");
       setShowLoginOtp(true);
     } catch (err) {
@@ -106,7 +110,11 @@ await axios.post("https://headga-backend.onrender.com/api/auth/pre-register", {
         name: userdata.name,
         email: userdata.email.trim(),
         password: userdata.password,
-      });
+      },
+  {
+    withCredentials: true,
+  }
+);
       toast.success("OTP sent to your email");
       setShowSignupOtp(true);
     } catch (err) {
