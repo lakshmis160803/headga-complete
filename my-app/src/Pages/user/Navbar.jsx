@@ -51,12 +51,15 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-4">
          {user.name ? (
   <>
-    <button
-      onClick={() => navigate("/profile")}
-      className="font-bold hover:text-blue-600"
-    >
-      {user.name}
-    </button>
+  <button
+  onClick={() => {
+    alert("clicked");
+    navigate("/profile");
+  }}
+  className="font-bold text-red-600"
+>
+  EDIT PROFILE
+</button>
 
     <button
       onClick={handleLogout}
