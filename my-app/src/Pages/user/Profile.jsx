@@ -43,9 +43,16 @@ console.log("Updated User:", updatedUser);
 setUser(updatedUser);
       
       toast.success("Profile updated!");
-    } catch {
-      toast.error("Failed to update profile.");
-    } finally {
+    }catch (err) {
+  console.log(err);
+  console.log(err.response?.data);
+
+  toast.error(
+    err.response?.data?.message ||
+    err.response?.data?.msg ||
+    "Failed to update profile."
+  );
+}finally {
       setLoading(false);
     }
   };
