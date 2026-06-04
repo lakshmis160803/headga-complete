@@ -5,7 +5,7 @@ export const sendOtpEmail = async (to, otp) => {
     console.log("BREVO SDK keys:", Object.keys(SibApiV3Sdk));
 
     const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-    apiInstance.authentications['api-key'].apiKey = process.env.BREVO_API_KEY;
+    apiInstance.authentications['api-key'].apiKey = process.env.KEY;
 
     const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
     sendSmtpEmail.subject = "Your OTP Code";
