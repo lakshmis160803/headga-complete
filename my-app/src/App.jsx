@@ -17,6 +17,7 @@ import AdminDashboard from "./Pages/admin/AdminDashboard";
 import AdminUsers from "./Pages/admin/AdminUsers";
 import AdminProducts from "./Pages/admin/AdminProducts";
 import AdminOrders from "./Pages/admin/AdminOrders";
+import Profile from "./Pages/user/Profile";
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/payment" element={<Payment />} />
+          <Route path="/profile" element={<Profile />} />
          
 
           

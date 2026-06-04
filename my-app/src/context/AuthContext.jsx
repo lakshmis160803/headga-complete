@@ -4,19 +4,19 @@ import axiosinstance from "../api/apiinstances.js";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({ id: null, name: null, role: null });
+  const [user, setUser] = useState({ id: null, name: null, role: null, avatar: null });
   const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
     axiosinstance.get("/auth/me")
-      .then(res => setUser({ id: res.data.id, name: res.data.name, role: res.data.role }))
-      .catch(() => setUser({ id: null, name: null, role: null }))
+      .then(res => setUser({ id: res.data.id, name: res.data.name, role: res.data.role, avatar: res.data.avatar }))
+      .catch(() => setUser({ id: null, name: null, role: null, avatar: null }))
       .finally(() => setAuthLoading(false));
   }, []);
 
   const logout = async (navigate) => {
     await axiosinstance.post("/auth/logout");
-    setUser({ id: null, name: null, role: null });
+    setUser({ id: null, name: null, role: null, avatar: null });
     navigate("/login");
   };
 

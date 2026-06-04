@@ -522,32 +522,42 @@ export const logout = async (req, res) => {
 };
 
 export const getMe = async (req, res) => {
-
   try {
-
-    const user = await User.findById(
-      req.user.id
-    ).select("name role");
+    const user = await User.findById(req.user.id).select("name role avatar");
 
     if (!user) {
-      return res.status(404).json({
-        msg: "User not found",
-      });
+      return res.status(404).json({ msg: "User not found" });
     }
 
     res.json({
       id: user._id,
       name: user.name,
       role: user.role,
+      avatar: user.avatar,
     });
-
   } catch (err) {
-
     console.error(err);
-
-    res.status(500).json({
-      msg: "Server error",
-    });
+    res.status(500).json({ msg: "Server error" });
   }
 };
 
+export const updateProfile = async (req, res) => {
+  try {
+    const { name } = req.body;
+    const avatar = req.file?.path || req.body.avatar;
+
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { name, avatar },
+      { new: true }
+    ).select("name avatar role");
+
+    res.json({
+      msg: "Profile updated",
+      user: { id: user._id, name: user.name, avatar: user.avatar, role: user.role },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Server error" });
+  }
+};
