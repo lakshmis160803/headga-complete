@@ -188,17 +188,20 @@ export const verifyRegisterOtp = async (
 };
 
 export const login = async (req, res) => {
-
   try {
+    console.log("LOGIN START");
 
     const { email, password } = req.body;
 
-    const cleanEmail =
-      email.trim().toLowerCase();
+    const cleanEmail = email.trim().toLowerCase();
+
+    console.log("SEARCHING USER");
 
     const user = await User.findOne({
       email: cleanEmail,
     });
+
+    console.log("USER FOUND");
 
     if (!user) {
       return res.status(400).json({
@@ -212,16 +215,20 @@ export const login = async (req, res) => {
       });
     }
 
-    if (user.password==="google-auth-user") {
+    if (user.password === "google-auth-user") {
       return res.status(400).json({
         msg: "Please use Google to sign in.",
       });
     }
 
+    console.log("CHECKING PASSWORD");
+
     const isMatch = await bcrypt.compare(
       password,
       user.password
     );
+
+    console.log("PASSWORD CHECKED");
 
     if (!isMatch) {
       return res.status(400).json({
@@ -239,13 +246,19 @@ export const login = async (req, res) => {
       .digest("hex");
 
     user.otpHash = otpHash;
+    user.otpExpires = Date.now() + 5 * 60 * 1000;
 
-    user.otpExpires =
-      Date.now() + 5 * 60 * 1000;
+    console.log("SAVING USER");
 
     await user.save();
 
+    console.log("USER SAVED");
+
+    console.log("SENDING OTP");
+
     await sendOtpEmail(user.email, otp);
+
+    console.log("OTP SENT");
 
     return res.json({
       msg: "OTP sent",
@@ -253,8 +266,7 @@ export const login = async (req, res) => {
     });
 
   } catch (err) {
-
-    console.error(err);
+    console.error("LOGIN ERROR:", err);
 
     res.status(500).json({
       msg: "Server error",
