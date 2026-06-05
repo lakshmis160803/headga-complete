@@ -207,9 +207,8 @@ function Payment() {
               <FiTruck /> Shipping Details
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-              <div className="relative col-span-2">
-                <FiUser className="absolute left-4 top-4 text-gray-400" />
+<div className="relative md:col-span-2">
+  <FiUser className="absolute left-4 top-4 text-gray-400" />
                 <input
                   name="name"
                   placeholder="Full Name *"
@@ -241,8 +240,8 @@ function Payment() {
                 />
               </div>
 
-              <div className="relative col-span-2">
-                <FiMapPin className="absolute left-4 top-4 text-gray-400" />
+         <div className="relative md:col-span-2">
+  <FiMapPin className="absolute left-4 top-4 text-gray-400" />
                 <textarea
                   name="address"
                   placeholder="Complete Address *"
