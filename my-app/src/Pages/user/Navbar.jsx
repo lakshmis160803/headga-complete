@@ -110,9 +110,10 @@ export default function Navbar() {
           <button onClick={() => { navigate("/cart"); setOpenMenu(false); }} className="block w-full text-left">🛒 Cart ({cartCount})</button>
           <button onClick={() => { navigate("/order"); setOpenMenu(false); }} className="block w-full text-left">Orders</button>
 
-         {user.name ? (
+     {user.name ? (
   <>
-    <button onClick={() => { navigate("/profile"); setOpenMenu(false); }} className="block w-full text-left font-bold">✏️ {user.name}</button>
+    <button onClick={() => { navigate("/profile"); setOpenMenu(false); }} className="block w-full text-left">✏️ Profile</button>
+    <div className="font-bold text-sm text-gray-500">{user.name}</div>
     <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded w-full">Logout</button>
   </>
 ) : (
