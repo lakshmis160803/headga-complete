@@ -2,7 +2,7 @@ import express from "express";
 import passport from "../controllers/passport.js";
 
 
-import { upload } from "../utils/cloudinary.js";
+import { upload } from "../config/cloudinary.js";
 import {
   preRegister,
   verifyRegisterOtp,
