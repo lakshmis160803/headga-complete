@@ -58,8 +58,8 @@ setUser(updatedUser);
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-black">
-      <div className="w-[400px] p-8 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-lg text-white">
+    <div className="min-h-screen flex justify-center items-center bg-black px-4">
+      <div className="w-full max-w-[400px] p-8 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-lg text-white">
         <h2 className="text-2xl font-semibold text-center mb-6">Edit Profile</h2>
 
         {/* Avatar Preview */}
