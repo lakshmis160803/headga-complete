@@ -541,10 +541,17 @@ export const getMe = async (req, res) => {
   }
 };
 
+import { uploadToCloudinary } from "../utils/cloudinary.js";
+
 export const updateProfile = async (req, res) => {
   try {
     const { name } = req.body;
-    const avatar = req.file?.path || req.body.avatar;
+    let avatar = req.body.avatar;
+
+    if (req.file) {
+      const result = await uploadToCloudinary(req.file.buffer);
+      avatar = result.secure_url;
+    }
 
     const user = await User.findByIdAndUpdate(
       req.user.id,

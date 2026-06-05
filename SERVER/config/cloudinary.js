@@ -1,5 +1,4 @@
 import { v2 as cloudinary } from "cloudinary";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
 
 cloudinary.config({
@@ -8,14 +7,19 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "headga/avatars",
-    allowed_formats: ["jpg", "jpeg", "png", "webp"],
-    transformation: [{ width: 300, height: 300, crop: "fill" }],
-  },
-});
+export const upload = multer({ storage: multer.memoryStorage() });
 
-export const upload = multer({ storage });
+export const uploadToCloudinary = (buffer) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: "headga/avatars", transformation: [{ width: 300, height: 300, crop: "fill" }] },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      }
+    );
+    stream.end(buffer);
+  });
+};
+
 export default cloudinary;
