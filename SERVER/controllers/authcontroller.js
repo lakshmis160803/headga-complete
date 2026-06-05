@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 import crypto from "crypto";
 import { sendOtpEmail } from "../utils/sendOtp.js";
+import { uploadToCloudinary } from "../config/cloudinary.js";
 
 const pendingRegistrations = new Map();
 
@@ -541,7 +542,6 @@ export const getMe = async (req, res) => {
   }
 };
 
-import { uploadToCloudinary } from "../utils/cloudinary.js";
 
 export const updateProfile = async (req, res) => {
   try {
