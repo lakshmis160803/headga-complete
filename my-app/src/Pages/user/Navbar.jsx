@@ -110,10 +110,21 @@ export default function Navbar() {
           <button onClick={() => { navigate("/cart"); setOpenMenu(false); }} className="block w-full text-left">🛒 Cart ({cartCount})</button>
           <button onClick={() => { navigate("/order"); setOpenMenu(false); }} className="block w-full text-left">Orders</button>
 
-     {user.name ? (
+ {user.name ? (
   <>
-    <button onClick={() => { navigate("/profile"); setOpenMenu(false); }} className="block w-full text-left">✏️ Profile</button>
-    <div className="font-bold text-sm text-gray-500">{user.name}</div>
+    <button onClick={() => { navigate("/profile"); setOpenMenu(false); }} className="flex items-center gap-3 w-full text-left">
+      <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center font-bold overflow-hidden flex-shrink-0">
+        {user.avatar ? (
+          <img src={user.avatar} alt="profile" className="w-full h-full object-cover" />
+        ) : (
+          user.name[0].toUpperCase()
+        )}
+      </div>
+      <div>
+        <div className="font-bold">{user.name}</div>
+        <div className="text-xs text-gray-500">Edit Profile</div>
+      </div>
+    </button>
     <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded w-full">Logout</button>
   </>
 ) : (
